@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "mocha -R min --timeout 10000",
-    "dev": "echo 'sleeping a bit'; sleep 8 ; echo 'let's start'; nodemon --exec 'mocha -R min --timeout 10000'",
+    "dev": "echo 'sleeping a bit'; sleep 8 ; echo 'wake up'; nodemon --exec 'mocha -R min --timeout 10000'",
     "test": "mocha -R min --timeout 10000"
   },
   "author": "",
