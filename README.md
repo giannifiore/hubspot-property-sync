@@ -1,5 +1,7 @@
 # Hubspot Property Sync
 
+![Sync company property to contacts](docs/img/example.png?raw=true "Example")
+
 Hubspot marketplace app (unpublished) to **keep your custom properties in sync** between different Hubspot resources, e.g.:
 * Sync Company properties to all corresponding Contacts
 * Sync Contact propertes to all corresponding Companies
@@ -7,6 +9,8 @@ Hubspot marketplace app (unpublished) to **keep your custom properties in sync**
 * Sync Contact properties to all associated Tickets
 * Sync Deal properties to the associated Contact
 * and any combination of the above
+
+
 
 ## how it works
 
