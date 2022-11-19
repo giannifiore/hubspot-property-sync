@@ -16,8 +16,6 @@ services:
       - APP_PROTOCOL=http
       - APP_HOST=localhost
       - APP_PORT=80
-    volumes:
-      - ./app/server:/usr/src/app/server
     depends_on:
       - hubspot.local
     ports:
@@ -36,8 +34,6 @@ services:
       - AWS_ACCESS_KEY_ID=root
       - AWS_SECRET_ACCESS_KEY=pass
       - AWS_REGION=us-east-1
-    volumes:
-      - ./app/server:/usr/src/app/server
     depends_on:
       - setup
 
@@ -53,8 +49,6 @@ services:
       - AWS_ACCESS_KEY_ID=root
       - AWS_SECRET_ACCESS_KEY=pass
       - AWS_REGION=us-east-1
-    volumes:
-      - ./test:/usr/src/test
     depends_on:
       - hubspot.local
       - setup
@@ -72,8 +66,6 @@ services:
       - AWS_ACCESS_KEY_ID=root
       - AWS_SECRET_ACCESS_KEY=pass
       - AWS_REGION=us-east-1
-    volumes:
-      - ./app/webhook:/usr/src/webhook
 
   hubspot.local:
     profiles:
@@ -84,8 +76,6 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - "WEBHOOK_URL=http://webhook.local/hubspot/events/listener"
-    volumes:
-      - "./hubspot:/usr/src/hubspot"
     depends_on:
       - setup
       - webhook.local
