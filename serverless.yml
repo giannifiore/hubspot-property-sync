@@ -1,0 +1,51 @@
+service: hubspot-sync-props
+
+provider:
+  name: aws
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:DescribeTable
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+    Resource:
+      - "Fn::GetAtt": [hubspotTokens, Arn]
+      - "Fn::GetAtt": [hubspotSyncRules, Arn]
+  
+resources:
+  Resources:
+    hubspotUserRules:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: HubspotUserRules
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: user.id
+            AttributeType: S
+          - AttributeName: app.id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: user.id
+            KeyType: HASH
+          - AttributeName: app.id
+            KeyType: RANGE
+
+    hubspotTokens:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: HubspotAppTokens
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: user.id
+            AttributeType: S
+          - AttributeName: app.id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: user.id
+            KeyType: HASH
+          - AttributeName: app.id
+            KeyType: RANGE

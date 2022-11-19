@@ -1,0 +1,126 @@
+version: "3.7"
+services:
+  app:
+    profiles:
+      - webapp
+    build:
+      context: ./app/server
+      dockerfile: Dockerfile.dev
+    environment:
+      - "AWS_DYNAMO_URL=http://dynamo.local:8000"
+      - "HUBSPOT_API_URL=http://hubspot.local:8080"
+      - "HUBSPOT_AUTH_WEB=http://localhost:8080"
+      - AWS_ACCESS_KEY_ID=root
+      - AWS_SECRET_ACCESS_KEY=pass
+      - AWS_REGION=us-east-1
+      - APP_PROTOCOL=http
+      - APP_HOST=localhost
+      - APP_PORT=80
+    volumes:
+      - ./app/server:/usr/src/app/server
+    depends_on:
+      - hubspot.local
+    ports:
+      - 80:80
+
+  scheduler:
+    profiles:
+      - webapp
+    build: 
+      context: ./app/server
+      dockerfile: Dockerfile.scheduler.dev
+    environment:
+      - "AWS_DYNAMO_URL=http://dynamo.local:8000"
+      - "HUBSPOT_API_URL=http://hubspot.local:8080"
+      - "HUBSPOT_AUTH_WEB=http://localhost:8080"
+      - AWS_ACCESS_KEY_ID=root
+      - AWS_SECRET_ACCESS_KEY=pass
+      - AWS_REGION=us-east-1
+    volumes:
+      - ./app/server:/usr/src/app/server
+    depends_on:
+      - setup
+
+  test:
+    profiles:
+      - testing
+    build:
+      context: ./test
+      dockerfile: Dockerfile.dev
+    environment:
+      - "AWS_DYNAMO_URL=http://dynamo.local:8000"
+      - "HUBSPOT_API_URL=http://hubspot.local:8080"
+      - AWS_ACCESS_KEY_ID=root
+      - AWS_SECRET_ACCESS_KEY=pass
+      - AWS_REGION=us-east-1
+    volumes:
+      - ./test:/usr/src/test
+    depends_on:
+      - hubspot.local
+      - setup
+  
+  webhook.local:
+    profiles:
+      - webapp
+      - testing
+    build: 
+      context: ./app/webhook
+      dockerfile: Dockerfile.dev
+    environment:
+      - "AWS_DYNAMO_URL=http://dynamo.local:8000"
+      - "HUBSPOT_API_URL=http://hubspot.local:8080"
+      - AWS_ACCESS_KEY_ID=root
+      - AWS_SECRET_ACCESS_KEY=pass
+      - AWS_REGION=us-east-1
+    volumes:
+      - ./app/webhook:/usr/src/webhook
+
+  hubspot.local:
+    profiles:
+      - webapp
+      - testing
+    build: 
+      context: ./hubspot
+      dockerfile: Dockerfile.dev
+    environment:
+      - "WEBHOOK_URL=http://webhook.local/hubspot/events/listener"
+    volumes:
+      - "./hubspot:/usr/src/hubspot"
+    depends_on:
+      - setup
+      - webhook.local
+    ports:
+      - 8080:8080
+  
+  setup:
+    image: containerlabs/aws-sdk:latest
+    profiles:
+      - webapp
+      - testing
+    command: >
+      sh -c "\
+          aws dynamodb create-table \
+            --region us-east-1 \
+            --endpoint-url 'http://dynamo.local:8000' \
+            --query 'TableDescription.TableArn' \
+            --table-name HubspotAppTokens \
+            --attribute-definitions AttributeName=user.id,AttributeType=S AttributeName=app.id,AttributeType=S \
+            --key-schema AttributeName=user.id,KeyType=HASH AttributeName=app.id,KeyType=RANGE \
+            --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 ; \ 
+          aws dynamodb create-table \
+            --region us-east-1 \
+            --endpoint-url 'http://dynamo.local:8000' \
+            --query 'TableDescription.TableArn' \
+            --table-name HubspotUserRules \
+            --attribute-definitions AttributeName=user.id,AttributeType=S \
+            --key-schema AttributeName=user.id,KeyType=HASH \
+            --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 "
+    depends_on:
+      - dynamo.local
+
+  dynamo.local:
+    image: amazon/dynamodb-local
+    command: ["-jar", "DynamoDBLocal.jar", "-inMemory", "-sharedDb"]
+    profiles:
+      - webapp
+      - testing
