@@ -1,7 +1,7 @@
 FROM node:18-alpine
 WORKDIR /usr/src/test
-RUN ["npm", "install", "nodemon", "-g"]
-COPY package* .
-RUN ["npm", "install"]
+RUN npm install nodemon -g
+COPY package* ./
+RUN npm install
 COPY . .
 CMD ["npm", "run", "dev"]
