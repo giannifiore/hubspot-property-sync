@@ -1,23 +1,23 @@
 {
   "name": "sync-prop-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "end-to-end test cases for hubspot sync prop app",
   "main": "index.js",
   "scripts": {
     "start": "mocha -R min --timeout 10000",
     "dev": "echo 'sleeping a bit'; sleep 8 ; echo 'wake up'; nodemon --exec 'mocha -R min --timeout 10000'",
     "test": "mocha -R min --timeout 10000"
   },
-  "author": "",
+  "author": "Gianni Fiore",
   "license": "ISC",
   "dependencies": {
-    "@hubspot/api-client": "^7.1.2",
-    "aws-sdk": "^2.1253.0",
-    "mocha": "^10.1.0",
-    "pluralize": "^8.0.0",
-    "unique-names-generator": "^4.7.1"
+    "@hubspot/api-client": "7.1.2",
+    "aws-sdk": "2.1253.0",
+    "mocha": "10.1.0",
+    "pluralize": "8.0.0",
+    "unique-names-generator": "4.7.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "2.0.20"
   }
 }

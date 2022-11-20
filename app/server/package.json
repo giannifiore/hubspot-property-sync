@@ -1,7 +1,7 @@
 {
   "name": "sync-props-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "an hubspot app to keep properties in sync between resources",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -13,18 +13,18 @@
   "author": "Gianni Fiore",
   "license": "ISC",
   "dependencies": {
-    "@hubspot/api-client": "^7.1.2",
-    "aws-sdk": "^2.1253.0",
-    "escape-html": "^1.0.3",
-    "express": "^4.18.2",
-    "express-session": "^1.17.3",
-    "jsonschema": "^1.4.1",
-    "moment": "^2.29.4",
-    "node-cache": "^5.1.2",
-    "request-promise-native": "^1.0.9",
-    "toad-scheduler": "^2.0.0"
+    "@hubspot/api-client": "7.1.2",
+    "aws-sdk": "2.1253.0",
+    "escape-html": "1.0.3",
+    "express": "4.18.2",
+    "express-session": "1.17.3",
+    "jsonschema": "1.4.1",
+    "moment": "2.29.4",
+    "node-cache": "5.1.2",
+    "request-promise-native": "1.0.9",
+    "toad-scheduler": "2.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "2.0.20"
   }
 }
