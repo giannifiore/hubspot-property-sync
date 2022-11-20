@@ -16,5 +16,8 @@
     "mocha": "^10.1.0",
     "pluralize": "^8.0.0",
     "unique-names-generator": "^4.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
