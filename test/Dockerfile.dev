@@ -1,6 +1,6 @@
 FROM node:18-alpine
 WORKDIR /usr/src/test
-RUN npm install nodemon -g
+RUN npm install nodemon@2.0.20 -g
 COPY package*.json ./
 RUN npm install
 COPY . .
