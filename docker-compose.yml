@@ -46,6 +46,7 @@ services:
       - AWS_ACCESS_KEY_ID=root
       - AWS_SECRET_ACCESS_KEY=pass
       - AWS_REGION=us-east-1
+    restart: on-failure
     depends_on:
       - hubspot.local
       - setup
