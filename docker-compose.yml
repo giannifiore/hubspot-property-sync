@@ -3,9 +3,8 @@ services:
   app:
     profiles:
       - webapp
-    build:
-      context: ./app/server
-      dockerfile: Dockerfile.dev
+    build: ./app/server
+    command: npm run dev
     environment:
       - "AWS_DYNAMO_URL=http://dynamo.local:8000"
       - "HUBSPOT_API_URL=http://hubspot.local:8080"
@@ -24,9 +23,8 @@ services:
   scheduler:
     profiles:
       - webapp
-    build: 
-      context: ./app/server
-      dockerfile: Dockerfile.scheduler.dev
+    build: ./app/server
+    command: npm run dev
     environment:
       - "AWS_DYNAMO_URL=http://dynamo.local:8000"
       - "HUBSPOT_API_URL=http://hubspot.local:8080"
@@ -40,9 +38,8 @@ services:
   test:
     profiles:
       - testing
-    build:
-      context: ./test
-      dockerfile: Dockerfile.dev
+    build: ./test
+    command: npm run dev
     environment:
       - "AWS_DYNAMO_URL=http://dynamo.local:8000"
       - "HUBSPOT_API_URL=http://hubspot.local:8080"
@@ -57,9 +54,8 @@ services:
     profiles:
       - webapp
       - testing
-    build: 
-      context: ./app/webhook
-      dockerfile: Dockerfile.dev
+    build: ./app/webhook
+    command: npm run dev
     environment:
       - "AWS_DYNAMO_URL=http://dynamo.local:8000"
       - "HUBSPOT_API_URL=http://hubspot.local:8080"
@@ -71,9 +67,8 @@ services:
     profiles:
       - webapp
       - testing
-    build: 
-      context: ./hubspot
-      dockerfile: Dockerfile.dev
+    build: ./hubspot
+    command: npm run dev
     environment:
       - "WEBHOOK_URL=http://webhook.local/hubspot/events/listener"
     depends_on:

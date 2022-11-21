@@ -1,9 +1,0 @@
-#!/bin/bash
-FROM --platform=linux/amd64 node:18-alpine
-WORKDIR /usr/src/hubspot
-RUN npm install nodemon@2.0.20 -g
-COPY package*.json ./
-RUN npm install
-COPY . .
-EXPOSE 8080
-CMD ["npm", "run", "dev"]
