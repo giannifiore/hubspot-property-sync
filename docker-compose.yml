@@ -24,7 +24,7 @@ services:
     profiles:
       - webapp
     build: ./app/server
-    command: npm run dev
+    command: npm run scheduler.dev
     environment:
       - "AWS_DYNAMO_URL=http://dynamo.local:8000"
       - "HUBSPOT_API_URL=http://hubspot.local:8080"
